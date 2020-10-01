@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import useMoney from '../hooks/useMoney';
+import useCripto from '../hooks/useCripto';
 
 const Button = styled.input`
     margin-top: 20px;
@@ -49,6 +50,10 @@ const Formulario = () => {
     //utilizar useMoneda(custom Hook)
     const [state,SelectMoney] = useMoney('Elige tu moneda','',MONEDAS);
 
+
+    //utilizar useCripto(custom hook)
+    const [criptomoneda,SelectCripto] = useCripto('Elige tu Criptomoneda','');
+
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -63,6 +68,7 @@ const Formulario = () => {
             onSubmit={handleSubmit}
         >
             <SelectMoney></SelectMoney>
+            <SelectCripto></SelectCripto>
             <Button
                 type="submit"
                 value="calcular"
