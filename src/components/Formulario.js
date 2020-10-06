@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 
 import useMoney from '../hooks/useMoney';
 import useCripto from '../hooks/useCripto';
+import Axios from 'axios';
 
 const Button = styled.input`
     margin-top: 20px;
@@ -29,6 +30,9 @@ const Button = styled.input`
 const Formulario = () => {
 
     
+    //state listado criptomonedas
+    const  [listCripto, setListCripto] = useState([]);
+
     //arreglo de monedas
     const MONEDAS = [
         { codigo: 'USD',
@@ -48,17 +52,39 @@ const Formulario = () => {
 
 
     //utilizar useMoneda(custom Hook)
-    const [state,SelectMoney] = useMoney('Elige tu moneda','',MONEDAS);
+    const [money,SelectMoney] = useMoney('Elige tu moneda','',MONEDAS);
 
 
     //utilizar useCripto(custom hook)
-    const [criptomoneda,SelectCripto] = useCripto('Elige tu Criptomoneda','');
+    const [criptomoneda,SelectCripto] = useCripto('Elige tu Criptomoneda','', listCripto);
 
+    //state de error
+    const [error, setError] = useState(false);
     
+    //cuando se cargue le componente hacer el llamado a la api
+    useEffect( () => {
+
+        const consultarApi= async () => {
+
+            const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD';
+            const result = await Axios.get(url);
+
+            //agrego las cripto en el state
+            setListCripto(result.data.Data);
+        }
+        consultarApi();
+
+    }, [])
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log("hi");
+        if(criptomoneda === '' || money === '') {
+            setError(true);
+            return;
+        }
+        setError(false);
     }
     
 
@@ -67,6 +93,7 @@ const Formulario = () => {
         <form 
             onSubmit={handleSubmit}
         >
+            {(error)? <h1>Hay un error</h1> : null}
             <SelectMoney></SelectMoney>
             <SelectCripto></SelectCripto>
             <Button

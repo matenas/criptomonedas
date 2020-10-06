@@ -25,6 +25,7 @@ const Select = styled.select`
 
 
 const useCripto = (label, stateInicial, opciones) => {
+    console.log(opciones)
 
     //state de nuestro custom hook
     const [state, setState] = useState(stateInicial);
@@ -38,9 +39,9 @@ const useCripto = (label, stateInicial, opciones) => {
                 value={state}
             >
             <option value="" disabled>--SELECCIONA UNA OPCION--</option>
-            {/* { opciones.map((opcion) =>(
-                <option key={opcion.codigo} value={opcion.codigo}>{opcion.name}</option>
-            )) } */}
+             { opciones.map((opcion) =>(
+                <option key={opcion.CoinInfo.Id} value={opcion.CoinInfo.Name}>{opcion.CoinInfo.FullName}</option>
+            )) } 
             </Select>
         </Fragment>
     );
