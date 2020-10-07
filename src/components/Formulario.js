@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styled from '@emotion/styled';
+import Error from './Error';
 
 import useMoney from '../hooks/useMoney';
 import useCripto from '../hooks/useCripto';
@@ -27,7 +28,7 @@ const Button = styled.input`
 `;
 
 
-const Formulario = () => {
+const Formulario = ({setMoney, setCriptoMoney}) => {
 
     
     //state listado criptomonedas
@@ -85,6 +86,10 @@ const Formulario = () => {
             return;
         }
         setError(false);
+
+        //guardar los datos en el state para pasarlos al componente principal
+        setMoney(money);
+        setCriptoMoney(criptomoneda);
     }
     
 
@@ -93,7 +98,7 @@ const Formulario = () => {
         <form 
             onSubmit={handleSubmit}
         >
-            {(error)? <h1>Hay un error</h1> : null}
+            {(error)? <Error mensaje="Todos los campos son requeridos"></Error> : null}
             <SelectMoney></SelectMoney>
             <SelectCripto></SelectCripto>
             <Button

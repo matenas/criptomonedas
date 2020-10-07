@@ -25,7 +25,6 @@ const Select = styled.select`
 
 
 const useCripto = (label, stateInicial, opciones) => {
-    console.log(opciones)
 
     //state de nuestro custom hook
     const [state, setState] = useState(stateInicial);
